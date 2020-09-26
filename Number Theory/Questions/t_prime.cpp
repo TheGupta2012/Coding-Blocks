@@ -16,10 +16,6 @@ using namespace std;
 using namespace __gnu_pbds;
 typedef long long int lli;
 typedef vector<lli> vi;
-typedef vector<vi> vvi;
-typedef unordered_map <lli,lli> umap;
-typedef priority_queue<lli> pq;
-typedef pair <lli, lli> pi;
 bitset<10000000> p;
 bool sieve_made = false;
 lli fast_power(lli a,lli b)
@@ -94,14 +90,17 @@ int main(){
          if(factor.size()==1)
          {
              // only one factor and the power is also only one.
-             v[i]=1;
+             for(map<lli,lli>::iterator it = factor.begin();it!=factor.end();it++)
+			 	{if(it->second==2)
+				  v[i]=1;
+				}
 
          }
         factor.clear();
         }
-    for(auto j:v)
+    for0(n)
     {
-        if(j) cout<<"YES\n";
+        if(v[i]) cout<<"YES\n";
         else cout<<"NO\n";
     }
     return 0;
