@@ -11,8 +11,6 @@ void print_brackets(int i,int n,string res,int cleft,int cright)
     {
         res[i] = '\0';
         v.push_back(res);
-        //cout<<res;
-        //cout<<endl;
         return;
     }
     if(cleft<n) // a left bracket can come until its count has not reached n.
