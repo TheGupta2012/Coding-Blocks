@@ -13,7 +13,7 @@ long long int non_consec_ones(long long int n)
 }
 int main()
 // almost same implementation of the optimal binary string question
-// just with dynamic programming.
+// just with dynamic programming.n
 {	int t;
 	cin>>t;
 	dp[0] = 1;
