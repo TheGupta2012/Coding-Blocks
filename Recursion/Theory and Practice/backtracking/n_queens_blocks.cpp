@@ -34,7 +34,7 @@ bool solveNqueens(int q,int i,int place[][10]){
         bool flag;
         for(int j=0;j<10;j++){
             if(check(i,j,place)==true)
-                {   // place teh queen assuming the i,j is the valid position
+                {   // place the queen assuming the i,j is the valid position
                     place[i][j] = 1;
                     flag = solveNqueens(q,i+1,place);// solve for the next part of the board.
                     if(flag == false)
