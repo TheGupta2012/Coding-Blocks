@@ -10,10 +10,10 @@ bool isValid(int number, int i, int j, vector<vector<int> > &sudoku, int n){
         if(sudoku[i][m]==number || sudoku[m][j]==number)
             return false;
     }
-    // now find which grid does it belong and search in the grid.
+    // now find which grid does it belong to and search in the grid.
     int size = int(sqrt(n));
-    int x = (i/size)*i;// starting row index of subgrid
-    int y = (j/size)*j;// starting col index of subgrid
+    int x = (i/size)*(size);// starting row index of subgrid
+    int y = (j/size)*(size);// starting col index of subgrid
     for(int h=x;h<x+size;h++){ // searching in sub rows
         for(int d=y;d<y+size;d++){//searching in subcolmns
             if(sudoku[h][d]==number)
@@ -23,7 +23,7 @@ bool isValid(int number, int i, int j, vector<vector<int> > &sudoku, int n){
     return true;
 }
 bool solve(int n,int i,int j,vector< vector<int> > &sudoku){
-    if(i==n){
+    if(i>=n){
         return true;
     }
     if(j==n){// means reached beyond the last column so update the row.
@@ -34,16 +34,18 @@ bool solve(int n,int i,int j,vector< vector<int> > &sudoku){
     bool flag;
     for(int no=1;no<=n;no++)
     {   if(isValid(no,i,j,sudoku,n))// repeatedly checking for the numbers 1-> n in i,jth cell
-            {   cout<<"Gone in "<<no<<endl<<" for "<<i<<" and "<<j<<endl;
+            {   cout<<"Trying "<<no<<endl<<"for "<<i<<" and "<<j<<endl;
                 sudoku[i][j] = no;
-                flag = solve(n,i,j+1,sudoku);
                 for(int i=0;i<n;i++){
                     for(int j=0;j<n;j++){
                         cout<<sudoku[i][j]<<" ";
                     }cout<<endl;
                 }
+                Sleep(1000);
+                flag = solve(n,i,j+1,sudoku);
                 if(flag==true)
-                {   return true;
+                {   cout<<no<<" was actually correct for position "<<i<<" and "<<j<<"!"<<endl;
+                    return flag;
                 }// do not backtrack here as you still have numbers to check for in the i,j th cell
             }
     }
@@ -72,13 +74,17 @@ int main()
             }
         }
     cout<<"Your sudoku is being solved...\n";
-    //Sleep(4000);
+    Sleep(4000);
     bool flag = solve(n,0,0,sudoku);
-    cout<<"Your final sudoku is :\n";
+    if(flag==true)
+    {cout<<"Your final sudoku is :\n";
     for(int i=0;i<n;i++){
         for(int j=0;j<n;j++){
             cout<<sudoku[i][j]<<" ";
         }cout<<endl;
+    }}
+    else{
+        cout<<"Sorry invalid configuration given!";
     }
     return 0;
 }
