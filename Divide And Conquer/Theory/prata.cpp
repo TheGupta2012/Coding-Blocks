@@ -84,58 +84,62 @@ void prime_fact(lli n)
     }
     if(n!=1) factor[n] = 1;
 }
-bool able_to_assign(lli pages, lli m, lli n, lli *books){
-    lli i = 0;
-    lli changes = 0;
-    lli curr_pages = 0;
-    while(i<n){
-        curr_pages+= books[i];
-        if(curr_pages>pages)
-            {
-            curr_pages = 0;
-            changes++;}// now start assigning books to another student
+lli search(lli s,lli e, lli key){ // nice! searching in log time for the element k.
+    lli ans,mid;
+    while(s<=e){
+        mid = (s+e)/2;
+        if(mid*(mid+1)/2<=key){
+            ans = mid;
+            s = mid+1;
+        }
         else
-            i++;
+            e = mid-1;
     }
-    // count is the number of switches. for m people we should have exactly m-1 switches.
-    if(changes<=m-1) // NOTEEEE-> it is not important that all the students are assigned books
-                    // what our objective is to maximise the number of pages and find the least maximum.
+    return ans;
+}
+bool valid(lli time,lli total,lli tot_cooks, lli *ranks)
+{   lli curr_parathas = 0;
+    for0(tot_cooks){
+        lli r = ranks[i];// r for a cook.
+        lli target = time/(r);
+        // now find k such that k*(k+1)<= time, obviously k <= target.
+        // add that k to your count
+        // count of parathas is >= total parathas required then return true;
+        lli k = search(0,target+1,target);
+        // cout<<"Rank of "<<i<<" cook is:"<<r<<endl;
+        // cout<<"He can make "<<k<<" parathas in "<<time<<" minutes"<<endl;
+        curr_parathas += k;
+    }
+     // cout<<"Total parathas that they can make in "<<time<<" is "<<curr_parathas<<endl;
+    if(curr_parathas>=total)
         return true;
     else
         return false;
 }
-lli allocate_pages(lli s,lli e,lli m, lli n, lli *arr)// my search space is 0 -> total number of pages present to be allocated
-{
-    lli ans;
-    lli mid ;
+lli solve_cooks(lli s,lli e,lli p,lli l, lli *ranks){
+    lli mid,ans;
     while(s<=e){
         mid = (s+e)/2;
-        if(able_to_assign(mid,m,n,arr)==true)
-            {
-                ans = mid;
-                e = mid - 1;
-            }
-        else{
-            s = mid+1;// student is not able to read
-        }
+        if(valid(mid,p,l,ranks)==true)
+            {ans = mid;
+            e = mid - 1;}
+        else
+            s = mid + 1;
     }
     return ans;
 }
-// need to do more.
 int main(){
     ios::sync_with_stdio(0);
-    in(t);
-    while(t--){
-        in(n);
-        in(m);
-        lli arr[n];
-        lli sum = 0;
-        for0(n)
-            {cin>>arr[i];
-            sum+=arr[i];}
-    
-        lli ans = allocate_pages(arr[n-1],sum,m,n,arr);
+
+        in(p);
+        in(l);
+        lli ranks[l];
+        for0(l)
+            cin>>ranks[i];
+        sort(ranks,ranks+l);
+        // now what would be my higher bound? -> take it high enough
+        lli ans = solve_cooks(0,1e10,p,l,ranks);
         cout<<ans<<endl;
-        }
+
     return 0;
 }

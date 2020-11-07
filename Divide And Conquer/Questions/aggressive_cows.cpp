@@ -84,58 +84,68 @@ void prime_fact(lli n)
     }
     if(n!=1) factor[n] = 1;
 }
-bool able_to_assign(lli pages, lli m, lli n, lli *books){
-    lli i = 0;
-    lli changes = 0;
-    lli curr_pages = 0;
-    while(i<n){
-        curr_pages+= books[i];
-        if(curr_pages>pages)
-            {
-            curr_pages = 0;
-            changes++;}// now start assigning books to another student
-        else
-            i++;
+lli valid(lli gap, lli cows, lli n, lli *arr){
+    lli i=0;
+    lli prev;
+    // prev is actually we have placed the cow not some random
+    // consecutive element.
+    cout<<"Checking for "<<gap<<" minimum distance\n";
+    while(cows>0 && i<n){
+        if(i==0){
+            cows--;
+            cout<<"A cow is placed at "<<arr[i]<<endl;
+            prev = arr[i];
+        }else{
+            if(arr[i]-prev>=gap){
+                // array sorted that is why checking the consecutive elements.
+                cows--; // place a cow there.
+                cout<<"A cow is placed at "<<arr[i]<<endl;
+                prev = arr[i];
+            }
+        }
+        i++;
     }
-    // count is the number of switches. for m people we should have exactly m-1 switches.
-    if(changes<=m-1) // NOTEEEE-> it is not important that all the students are assigned books
-                    // what our objective is to maximise the number of pages and find the least maximum.
+    if(cows==0)// we were able to place the cows
         return true;
-    else
+    else {
+        cout<<"Sorry, not able to place the cows at "<<gap<<" minimum distance in array.\n";
         return false;
+    }
 }
-lli allocate_pages(lli s,lli e,lli m, lli n, lli *arr)// my search space is 0 -> total number of pages present to be allocated
-{
-    lli ans;
-    lli mid ;
+lli aggressive_cow_solve(lli s,lli e, lli n, lli c, lli *arr){
+    lli ans , mid;
     while(s<=e){
         mid = (s+e)/2;
-        if(able_to_assign(mid,m,n,arr)==true)
-            {
-                ans = mid;
-                e = mid - 1;
-            }
+        if(valid(mid,c,n,arr)==true){
+            ans = mid;
+            s = mid+1;
+        }
         else{
-            s = mid+1;// student is not able to read
+            e = mid-1;
         }
     }
     return ans;
 }
-// need to do more.
-int main(){
-    ios::sync_with_stdio(0);
+int main()
+{   ios::sync_with_stdio(false);
     in(t);
     while(t--){
         in(n);
-        in(m);
+        in(c);
         lli arr[n];
-        lli sum = 0;
+        lli min,max;
+        max = -1;
+        min = 1e18;
         for0(n)
             {cin>>arr[i];
-            sum+=arr[i];}
-    
-        lli ans = allocate_pages(arr[n-1],sum,m,n,arr);
+            if(arr[i]<min) min = arr[i];
+            if(arr[i]>max) max = arr[i];}
+        sort(arr,arr+n);
+
+        // now i need to firstly find my bounds for the search space in my test case
+        lli end = max - min;// this is the  bound for my searchspace.
+        lli ans = aggressive_cow_solve(0,end,n,c,arr);
         cout<<ans<<endl;
-        }
+    }
     return 0;
 }

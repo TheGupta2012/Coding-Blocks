@@ -84,58 +84,53 @@ void prime_fact(lli n)
     }
     if(n!=1) factor[n] = 1;
 }
-bool able_to_assign(lli pages, lli m, lli n, lli *books){
-    lli i = 0;
-    lli changes = 0;
-    lli curr_pages = 0;
-    while(i<n){
-        curr_pages+= books[i];
-        if(curr_pages>pages)
-            {
-            curr_pages = 0;
-            changes++;}// now start assigning books to another student
-        else
-            i++;
-    }
-    // count is the number of switches. for m people we should have exactly m-1 switches.
-    if(changes<=m-1) // NOTEEEE-> it is not important that all the students are assigned books
-                    // what our objective is to maximise the number of pages and find the least maximum.
+lli canSShipGiveTo(lli n,lli target, lli total_c, lli x, lli y){
+    //x -> the coupons required for a child to get s_ship
+    //y-> the coupons we can take away from a student
+    // i just need to see if I can atlelast give scholarship
+    // these number of students.
+    // total_coupon / x is the number of students to which we can directly
+    // give a scholarship
+    if(total_c/x >= target)
         return true;
-    else
-        return false;
+    else{
+        lli remain = n - target;// remaining students
+        lli required_val = (target - total_c/x)*x; // required coupons for the rest of the remaining students
+        lli gen_value = (total_c%x + y*remain);
+        // how much value we have and can generate.
+        if(gen_value>=required_val)
+            return true;
+        else
+            return false;
+    }
 }
-lli allocate_pages(lli s,lli e,lli m, lli n, lli *arr)// my search space is 0 -> total number of pages present to be allocated
-{
-    lli ans;
-    lli mid ;
+lli solve(lli s,lli e,lli n, lli m, lli x, lli y){
+    // search space is 0-> n.
+    // predicate -> if mid evaluates to true means we can
+    // give atleast mid students the scholarship and thus
+    // usse kum ko to de hi skte hain-> go right.
+    // if mid evaluates to false means we cannot give
+    // scholarship to mid students and thus usse zada ko
+    // kya hi denge.
+    lli ans , mid; // maximise the answer
     while(s<=e){
         mid = (s+e)/2;
-        if(able_to_assign(mid,m,n,arr)==true)
-            {
-                ans = mid;
-                e = mid - 1;
-            }
-        else{
-            s = mid+1;// student is not able to read
+        if(canSShipGiveTo(n,mid,m,x,y)==true){
+            ans = mid;
+            s = mid+1;
         }
+        else
+            e = mid-1;
     }
     return ans;
 }
-// need to do more.
+// AMAZING ! first try accepted -> :D
 int main(){
-    ios::sync_with_stdio(0);
-    in(t);
-    while(t--){
-        in(n);
-        in(m);
-        lli arr[n];
-        lli sum = 0;
-        for0(n)
-            {cin>>arr[i];
-            sum+=arr[i];}
-    
-        lli ans = allocate_pages(arr[n-1],sum,m,n,arr);
-        cout<<ans<<endl;
-        }
+    in(n);// total students
+    in(m);// total coupons
+    in(x);// coupons required for scholarship
+    in(y);// coupons that can be generated from a student back to the CB
+    lli ans = solve(0,n,n,m,x,y);
+    cout<<ans;
     return 0;
 }

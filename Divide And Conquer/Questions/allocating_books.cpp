@@ -86,20 +86,18 @@ void prime_fact(lli n)
 }
 bool able_to_assign(lli pages, lli m, lli n, lli *books){
     lli i = 0;
-    lli changes = 0;
+    lli count = 0;
     lli curr_pages = 0;
-    while(i<n){
+    while(m>0 && i<n){
         curr_pages+= books[i];
         if(curr_pages>pages)
             {
             curr_pages = 0;
-            changes++;}// now start assigning books to another student
+            count++;}// now start assigning books to another student
         else
             i++;
     }
-    // count is the number of switches. for m people we should have exactly m-1 switches.
-    if(changes<=m-1) // NOTEEEE-> it is not important that all the students are assigned books
-                    // what our objective is to maximise the number of pages and find the least maximum.
+    if(count==m-1)// count is the number of switches. for m people we should have exactly m-1 switches.
         return true;
     else
         return false;
@@ -133,7 +131,6 @@ int main(){
         for0(n)
             {cin>>arr[i];
             sum+=arr[i];}
-    
         lli ans = allocate_pages(arr[n-1],sum,m,n,arr);
         cout<<ans<<endl;
         }
