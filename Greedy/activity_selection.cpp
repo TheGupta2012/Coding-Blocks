@@ -1,54 +1,37 @@
 #include<bits/stdc++.h>
 #define all(v) v.begin(),v.end()
 using namespace std;
-typedef pair <int,int> pi;
-bool comp (const pair <pi,int> &a, const pair< pi,int > &b){
-    return (a.first).second < (b.first).second;
-}
-// this is a naive implementation.
-// just don't choose the current schedule if s[j] < f[j-1] , simple.
-void mark_invalid(int si, int finish, vector < pair < pi , int > > schedules, bool *valid){
-    int start,m;
-    for(auto k:schedules){
-        start = (k.first).first;
-        m = k.second;
-        if(start < finish && m!=si && valid[m]==true){
-            valid[m] = false;// it is not a valid schedule.
-        }
-    }
+bool comp(const pair <int,int> &a,const pair<int,int> &b){
+    return (a.second)<(b.second);
 }
 int main(){
-    int t;
-    cin>>t;
-    while(t--){
-    int n,start,finish,si;
+    ios::sync_with_stdio(0);
+    cout<<"Enter the number of activities :";
+    int n,s,e;
     cin>>n;
-    vector < pair < pi , int > > schedules;
+    vector <pair<int,int> > activity;
+    activity.reserve(n);
     for(int i=0;i<n;i++){
-        cin>>start;
-        cin>>finish;
-        schedules.push_back({{start,finish},i});
+        cin>>s;
+        cin>>e;
+        activity.push_back({s,e});
     }
-    // sort according to earliest finishing times.
-    sort(all(schedules),comp);
-    bool valid[n];
-    for(int i=0;i<n;i++)
-        valid[i] = true;
-    int ans =0;
-    for(auto k:schedules){
-        start = (k.first).first;
-        finish = (k.first).second;
-        si = (k.second);//note that it is zero based.
-        if(valid[si]==true){
-            // all those schedules as invalid which have a start time
-            // before the finish of the current schedule.
-            mark_invalid(si,finish,schedules,valid);
-            valid[si] = false;
-            ans++;
+    sort(all(activity),comp);
+    // sorted according to finishing times
+    int last_finish = -1,ans=0;
+    for(auto k:activity){
+        if(last_finish==-1)
+            {
+                ans++;
+                last_finish = k.second;
+            }
+        else{
+            if(k.first>=last_finish){
+                ans++;
+                last_finish = k.second;
+            }
         }
-        else continue;
     }
-    cout<<ans<<endl;
-}
+    cout<<"Maximum no. of activities available :"<<ans<<endl;
     return 0;
 }
