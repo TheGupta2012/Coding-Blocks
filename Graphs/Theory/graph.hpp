@@ -1,7 +1,6 @@
-#define unordered_map umap;
+#define umap unordered_map
 template <typename T>
-umap <T,list<T> > makeGraph(lli n,lli m,bool both){
-    umap <T,list<T> > adj;
+void makeGraph(lli n,lli m,bool both,umap<T,list<T> > &adj){
     T s,e;
     for0(m){
         cin>>s>>e;
@@ -9,7 +8,6 @@ umap <T,list<T> > makeGraph(lli n,lli m,bool both){
         if(both==true)
             adj[e].push_back(s);
     }
-    return adj;
 }
 template <typename T>
 umap < T, list < pair<T,lli > > > makeGraphWeight(lli n,lli m,bool both){
@@ -36,6 +34,7 @@ void dfs(T node, map < T,bool > &visited,umap <T,list<T> > &adj){
     }
     return;
 }
+template <typename T>
 void DFS(T source,umap <T,list<T> > &adj){
     map< T,bool > visited;
     visited[source] = true;
