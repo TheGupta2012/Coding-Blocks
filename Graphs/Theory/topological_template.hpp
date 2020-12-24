@@ -56,7 +56,7 @@ template <typename T>
 list<T> topological(unordered_map<T,list<T> > &adj){
     list <T> ordering;
     // DFS
-    make a visited array and initialise
+    //make a visited array and initialise
     map< T,bool> visited;
     for(auto k:adj){
         T node = k.first;
