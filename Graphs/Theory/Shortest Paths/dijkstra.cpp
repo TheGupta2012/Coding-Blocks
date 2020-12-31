@@ -68,7 +68,10 @@ void DIJKSTRA(lli src,lli v,umap< lli, list<pi> > adj){
         if(k.first==src)
             continue;
         else
-            cout<<k.second<<" ";
+            {if(k.second!=1e12)
+                cout<<k.second<<" ";
+            else
+                cout<<-1<<" ";}
     }
     cout<<endl;
 }
