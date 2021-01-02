@@ -1,0 +1,7 @@
+Again same as the 0 case.
+0 is a special case of the problem.
+-> Hash the cumulative sums.
+-> keep the first occurence of the c.sums( first[csum[i]] ) in a map. 
+-> Whenever you encounter the c.sum[i] again, the answer is gonna be max(ans,abs(i-first[k - c.sum[i]])), if it present in the hash map...
+-> One another case is the fact that you have the current sum as k only, consider it too.
+-> That's it, you got it.

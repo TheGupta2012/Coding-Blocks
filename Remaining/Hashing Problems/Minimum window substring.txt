@@ -1,0 +1,12 @@
+given a string s-> " helloeeo world "
+and a string n-> "eelo"
+find the smallest windoe in the string s containing all the characters of 
+the string n. -> div and conquer can be used.
+
+Or a sliding window
+-> go right while expanding till your pattern fits inside your window.
+-> As soon as you got a valid window, you try to contract it and then see what happens
+-> if it is still a valid window, consider in the answer
+-> Basically-> Doesn't fit-> try to expand
+	    -> Fits currently -> try to contract.
+ -> Get the minimum answer.

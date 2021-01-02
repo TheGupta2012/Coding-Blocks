@@ -1,0 +1,4 @@
+Again find cummulative sum but ALSO KEEP THE MINIMUM AND MAXIMUM INDICES AT WHICH YOU FIND A SUM S.(As,Bs)
+Now at any c.sum value it's longest contribution will be max(abs(As,i),abs(Bs,i)) 
+Just iterate for all the c.sums and i think you'll find the answer.
+Yep correct..

@@ -1,0 +1,5 @@
+-> for any i,j in the array you need to find whether the difference of cummulative sums is 0 or not 
+-> Best approach -> O(n) 
+	- Hash the cummulative sums and at any iteration check that whether the current cum-sum value is 
+	  present more than once in the cummulative hash map or not.
+	- That is it!. 
