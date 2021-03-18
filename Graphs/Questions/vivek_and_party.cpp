@@ -37,12 +37,12 @@ list<T> topological(unordered_map<T,list<T> > &adj){
     // dependencies resolved! :D
     return ordering;
 }
+
 int main(){
     ios::sync_with_stdio(0);
     int cases=1;
-    int n=-1;
-    cin>>n;
-    while(n!=-1){
+    int n;
+    while(cin>>n){
     string c,s,e;
     unordered_map< string, list<string> > adj;
     for(int i=0;i<n;i++)
@@ -69,8 +69,6 @@ int main(){
         last--;}
     cout<<endl;
     cases++;
-    n=-1;
-    cin>>n;
     }
     return 0;
 }
